@@ -2,6 +2,13 @@
 
 ---
 
+## 👨‍🎓 Thông tin sinh viên
+
+- **Họ tên:** Đỗ Từ Chương
+- **MSSV:** K24DTCN411
+- **Lớp:** HKV_NMCNPM
+- **Github Profile:** [github.com/chuongxxx](https://github.com/chuongxxx)
+
 ## 1. PROJECT DEFINITION
 
 ### 1.1 Tên dự án
