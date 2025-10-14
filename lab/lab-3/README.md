@@ -149,13 +149,15 @@ Mục tiêu của SDLC là đảm bảo phần mềm được phát triển **đ
 
 ### 2. Cấu trúc thư mục
 
+```bash
 product-management/
 ├── src/
-│ ├── index.ts
-│ └── routes/
-│ └── products.ts
+│   ├── index.ts
+│   └── routes/
+│       └── products.ts
 ├── package.json
 ├── tsconfig.json
 ├── nodemon.json
 ├── README.md
 └── .gitignore
+```
