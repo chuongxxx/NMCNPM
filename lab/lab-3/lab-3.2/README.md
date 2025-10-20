@@ -7,13 +7,15 @@
 ---
 
 # 1. Môi trường thực hiện
-- Hệ điều hành: Windows  
-- Server: VisualSVN Server (GUI)  
+
+- Hệ điều hành: Windows
+- Server: VisualSVN Server (GUI)
 - Client: `svn` CLI (cmd) — thao tác trong `cmd` mở từ VisualSVN Server hoặc shell bình thường.
 
 ---
 
-# 2. Cài đặt SVN  
+# 2. Cài đặt SVN
+
 Các bước cài đặt (ảnh minh chứng kèm theo):
 
 ![setup-svn-1](<1. setup-svn-1.png>)  
@@ -30,8 +32,9 @@ Các bước cài đặt (ảnh minh chứng kèm theo):
 ---
 
 # 3. Tạo Repository
-1. Mở **VisualSVN Server Manager** → `Repositories` → `Create New Repository`.  
-2. Chọn tên repo (ví dụ `lab3`) và tick *Create default structure* để tạo `trunk/branches/tags`.
+
+1. Mở **VisualSVN Server Manager** → `Repositories` → `Create New Repository`.
+2. Chọn tên repo (ví dụ `lab3`) và tick _Create default structure_ để tạo `trunk/branches/tags`.
 
 Ảnh minh chứng thao tác tạo repo:
 
@@ -46,7 +49,7 @@ Các bước cài đặt (ảnh minh chứng kèm theo):
 Nếu cần user để truy cập repo, tạo user trong VisualSVN:
 
 ![user-for-repository](<16. user-for-repository.png>)  
-![create-new-user](<17. create-new-user.png>)  
+![create-new-user](<17. create-new-user.png>)
 
 Cuối cùng kiểm tra service vẫn chạy:
 
@@ -55,13 +58,16 @@ Cuối cùng kiểm tra service vẫn chạy:
 ---
 
 # 4. Lấy bản sao làm việc (Checkout)
-**Lấy URL repo chính xác:** mở VisualSVN Server Manager → chọn repo → *Copy URL to Clipboard*  
-Ví dụ URL:  
+
+**Lấy URL repo chính xác:** mở VisualSVN Server Manager → chọn repo → _Copy URL to Clipboard_  
+Ví dụ URL:
+
 ```
 https://desktop-aa1ok0s/svn/lab3/trunk
 ```
 
 **Lệnh checkout (CLI):**
+
 ```cmd
 svn checkout https://desktop-aa1ok0s/svn/lab3/trunk C:\WorkingCopy --username admin --trust-server-cert
 ```
@@ -71,6 +77,7 @@ svn checkout https://desktop-aa1ok0s/svn/lab3/trunk C:\WorkingCopy --username ad
 ![copy-working-dir](20.copy-working-dir.png)
 
 **Ghi chú:** Nếu không dùng HTTP(S) hoặc làm trực tiếp trên máy chủ, có thể checkout bằng `file://`:
+
 ```cmd
 svn checkout file:///C:/Repositories/lab3/trunk C:\WorkingCopy
 ```
@@ -78,66 +85,86 @@ svn checkout file:///C:/Repositories/lab3/trunk C:\WorkingCopy
 ---
 
 # 5. Thao tác trên Working Copy (CLI)
+
 **Vào thư mục làm việc:**
+
 ```cmd
 cd C:\WorkingCopy
 ```
 
 **Tạo file mới (Windows cmd):**
+
 ```cmd
 echo Hello SVN > readme.txt
 ```
+
 Ảnh:
 ![add-new-file](21.add-new-file.png)  
 ![new-file-in-dir](22.new-file-in-dir.png)
 
 **Thêm file vào version control:**
+
 ```cmd
 svn add readme.txt
 ```
 
 **Kiểm tra trạng thái:**
+
 ```cmd
 svn status
 ```
+
 Kết quả thông thường:
+
 ```
 A       readme.txt
 ```
+
 ( `A` = Added, `M` = Modified, `?` = unversioned )
 
 **Commit (check-in) thay đổi:**
+
 ```cmd
 svn commit -m "Initial commit: add readme" --username admin --password YOUR_PASSWORD --non-interactive --trust-server-cert
 ```
 
 **Xem diff giữa working copy và base:**
+
 ```cmd
 svn diff readme.txt
 ```
+
 Ảnh minh chứng:
 ![svn commit](<23.svn commit.png>)  
 ![svn diff](<24.svn diff.png>)
 
 **Xem lịch sử commit (log):**
+
 ```cmd
 svn log -l 20
 ```
+
 Ảnh minh chứng:
 ![svn log](<25.svn log.png>)
 
 ---
 
 # 6. So sánh phiên bản (Compare revisions)
+
 - Lấy log để biết số revision:
+
 ```cmd
 svn log -r 1:HEAD
 ```
+
 - So sánh hai revision:
+
 ```cmd
 svn diff -r 1:2 path\to\file
 ```
+
 Hoặc so sánh toàn thư mục:
+
 ```cmd
 svn diff -r 3:4
 ```
@@ -147,18 +174,22 @@ svn diff -r 3:4
 ---
 
 # 7. Quy trình tốt khi làm việc với SVN
-- **Không sửa trực tiếp** trong thư mục repository (ví dụ `C:\Repositories\lab3`). Luôn thao tác trong **working copy** rồi commit.  
+
+- **Không sửa trực tiếp** trong thư mục repository (ví dụ `C:\Repositories\lab3`). Luôn thao tác trong **working copy** rồi commit.
 - Trước khi commit, chạy `svn update` để lấy thay đổi mới nhất và tránh conflict:
+
 ```cmd
 svn update
 ```
+
 - Nếu xảy ra conflict, SVN sẽ báo `C` trong `svn status`. Giải quyết conflict thủ công, `svn resolved` sau khi sửa xong.
 - Dùng commit message rõ ràng: `Feature/bugfix: short description` để dễ tra cứu.
 
 ---
 
 # 8. Troubleshooting (vấn đề phổ biến đã gặp)
-- **HTTP 404 / Not Found:** có thể URL sai hoặc repo chưa được publish trong VisualSVN. Dùng *Copy URL* từ GUI để đảm bảo chính xác.
+
+- **HTTP 404 / Not Found:** có thể URL sai hoặc repo chưa được publish trong VisualSVN. Dùng _Copy URL_ từ GUI để đảm bảo chính xác.
 - **`does not support the HTTP/DAV protocol`:** thường do bạn đang truy cập đường dẫn không phải DAV endpoint (ví dụ chứa ký tự lạ `%23` hay `!/`). Đảm bảo URL dạng:
   ```
   https://<hostname>/svn/<repo>
@@ -167,28 +198,8 @@ svn update
 
 ---
 
-# 9. Deliverables (Checklist nộp)
-Bạn có thể dùng checklist này trong báo cáo nộp:
+# 9. Tài liệu tham khảo / lệnh thường dùng
 
-- [x] Mô tả mục tiêu lab.  
-- [x] Ảnh cài đặt SVN (screenshots trong phần 2).  
-- [x] Ảnh tạo repository + cấu trúc `trunk/branches/tags`.  
-- [x] Checkout thành công (ảnh cmd).  
-- [x] Tạo file trong working copy, `svn add`, `svn commit` (ảnh file, ảnh commit).  
-- [x] So sánh phiên bản (`svn diff`) (ảnh).  
-- [x] Xem log (`svn log`) (ảnh).  
-- [ ] (Optional) Tạo branch, merge và minh chứng (nếu nhóm muốn nâng cao).
-
----
-
-# 10. Kết luận (gợi ý viết phần báo cáo)
-- Tổng kết quá trình: cài đặt, tạo repo, checkout, commit thành công.  
-- Những lỗi gặp phải và cách khắc phục (ví dụ: lỗi URL/HTTP/DAV, cách dùng `file://` khi cần).  
-- Bài học: luôn thao tác trên working copy, commit message rõ ràng, cập nhật trước khi commit.
-
----
-
-# 11. Tài liệu tham khảo / lệnh thường dùng
 ```txt
 svn checkout <URL> <PATH>
 svn add <file>
